@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
+from spellchecker import SpellChecker
 
 ps = PorterStemmer()
 stop_words = set(stopwords.words("english"))
@@ -49,12 +50,29 @@ class CoOccur:
             tokenized = self.tokenize(article)      # tokenize article
             self.construct_matrix(tokenized)
 
+    def spell_check(self, query):
+        spell = SpellChecker()
+        misspelled = spell.unknown(query)                       # list of misspelled words in query
+        for i in range(0, len(query)):
+            if query[i] in misspelled:
+                candidate_found = False
+                for candidate in spell.candidates(query[i]):    # possible candidates
+                    if candidate in docFreq:
+                        query[i] = candidate
+                        candidate_found = True
+                        break
+                if candidate_found is False:
+                    query[i] = spell.correction(query[i])   # Get the one `most likely` answer
+        print(query)        # query with correct spellings
+
 
 df = pd.read_csv('news_summary.csv', sep=',', encoding='latin-1')
 features = (col for col in df.columns)
 c = CoOccur()
-c.find()
-
+# c.find(['1', '2'])
+query = ['aple', 'astnaut', 'bnna']
+c.spell_check(query)
 
 # find root words = done
-# find doc freq of each root word
+# find doc freq of each root word = done
+
