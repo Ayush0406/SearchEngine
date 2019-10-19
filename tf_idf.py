@@ -1,13 +1,15 @@
 #!/usr/bin/env python for index in range(len(list)):
 import math
 from cosine import cosine_sim
+from Co_Occurrence import docFreq
+
 class tf_idf:
 	def tf_doc_specific(self, myList, global_word):
 		word_count = {}
 		for index in range(len(myList)):
 			if myList[index] in word_count:
-				word_count[myList[index]] = word_count[myList[index]]+1;
-			else :
+				word_count[myList[index]] = word_count[myList[index]]+1
+			else:
 				word_count[myList[index]] = 1
 		for word in word_count:
 			count = word_count[word]
@@ -25,15 +27,15 @@ class tf_idf:
 		return word_count
 
 	def tf_idf_query(self,Query,global_word,doc_freq,doc_count):
-		word_tf={}
+		word_tf = {}
 		for index in range(len(Query)):
 			if Query[index] in word_tf:
 				word_tf[Query[index]] = word_tf[Query[index]]+1
-			else :
+			else:
 				word_tf[Query[index]] = 1
 		for word in word_tf:
-			count = word_tf[word]
-			word_tf[word]=float(1+math.log(count,10))
+			count = word_tf[word] # term frequency of the word in query
+			word_tf[word] = float(1+math.log(count, 10))
 		return_vector = []
 		"""for word in global_word:
 			if word in word_count:
@@ -41,10 +43,10 @@ class tf_idf:
 			else:
 				return_vector.append(0);"""
 		for word in word_tf:
-			if word in doc_freq:
-				word_tf[word]*=math.log(doc_count/doc_freq[word],10)
+			if word in global_word:
+				word_tf[word] *= math.log(doc_count/docFreq[word], 10)
 			else:
-				word_tf[word]=0
+				word_tf[word] = 0
 		return word_tf
 
 

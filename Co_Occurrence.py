@@ -14,6 +14,7 @@ stop_words = set(stopwords.words("english"))
 stop_words.update(['.', ',', '"', "'", '?', '!', ':', ';', '(', ')', '[', ']', '{', '}'])
 docFreq = {}    # A dictionary to store doc frequency of each unique word
 
+
 class CoOccur:
     df = pd.DataFrame()
 
@@ -37,10 +38,13 @@ class CoOccur:
         nltk.regexp_tokenize(article, pattern)
         result = article.translate(str.maketrans('', '', string.punctuation))
         print(result)"""
-        result = [word for word in tokens if word not in stop_words] # remove stopwords
+        result = [word for word in tokens if word not in stop_words]    # remove stopwords
+
         for i in range(0, len(result)):
             word = result[i]
             result[i] = ps.stem(word)   # Porter Stemmer
+        uniqueWords = set(result)
+        for word in uniqueWords:
             if word in docFreq:
                 docFreq[word] += 1
             else:
@@ -73,6 +77,7 @@ class CoOccur:
     def spell_check(self, query):
         spell = SpellChecker()
         misspelled = spell.unknown(query)                       # list of misspelled words in query
+        print(misspelled)
         for i in range(0, len(query)):
             if query[i] in misspelled:
                 candidate_found = False
@@ -84,7 +89,7 @@ class CoOccur:
                 if candidate_found is False:
                     query[i] = spell.correction(query[i])   # Get the one `most likely` answer
         print(query)        # query with correct spellings
-
+        return query
 
 
 # find root words = done
