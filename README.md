@@ -1,11 +1,5 @@
 # README.md
 
-**This is boldened**
-```
-This is a block
-```
-# this is a title
-**in bold**
 
 First step involves cloning this repository into your destination folder.
 ```sh
