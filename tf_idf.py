@@ -3,11 +3,23 @@ import math
 from cosine import cosine_sim
 from Co_Occurrence import docFreq
 
+
 class tf_idf:
+	"""
+	This class contains methods which generate the tf-idf scores
+	for query string and the documents of the dataset.
+	"""
+
 	def tf_doc_specific(self, myList, global_word):
+		"""
+		This method is used to find the tf-idf score of the specific document which has been passed as an argument
+		:param myList: The list of words obtained from an individual document
+		:param global_word: The list of all the words in the entire corpus
+		:return: a dictionary which maps the tf-idf scores of the words in the specific document
+		"""
 		word_count = {}
 		for index in range(len(myList)):
-			if myList[index] in word_count:
+			if myList[index] in word_count.keys():
 				word_count[myList[index]] = word_count[myList[index]]+1
 			else:
 				word_count[myList[index]] = 1
@@ -27,14 +39,22 @@ class tf_idf:
 		return word_count
 
 	def tf_idf_query(self,Query,global_word,doc_freq,doc_count):
+		"""
+		This method is responsible for computing the tf-idf score of the user query
+ 		:param Query: list of strings present in the user query
+		:param global_word: list of all the words present in the corpus
+		:param doc_freq: dictionary which maps each word of the corpus to the number of documents it appears in
+		:param doc_count: integer denoting total number of documents in the corpus
+		:return: dictionary of user query words mapped on to the corresponding tf-idf scores
+		"""
 		word_tf = {}
 		for index in range(len(Query)):
-			if Query[index] in word_tf:
+			if Query[index] in word_tf.keys():
 				word_tf[Query[index]] = word_tf[Query[index]]+1
 			else:
 				word_tf[Query[index]] = 1
 		for word in word_tf:
-			count = word_tf[word] # term frequency of the word in query
+			count = word_tf[word] 	# term frequency of the word in query
 			word_tf[word] = float(1+math.log(count, 10))
 		return_vector = []
 		"""for word in global_word:
@@ -48,20 +68,3 @@ class tf_idf:
 			else:
 				word_tf[word] = 0
 		return word_tf
-
-
-
-
-
-globa = ['Wishing','former', 'cricketer', 'Zaheer', 'Khan', 'on', 'the', 'occasion', 'of', 'his', '41st', 'birthday', 'Team', 'India', 'all-rounder' ,'Hardik', 'Pandya', 'shared', 'a', 'video', 'him','trolls','the fuck']
-test = ['former','Wishing', 'cricketer', 'Zaheer', 'Khan', 'on', 'the', 'occasion', 'of', 'his', '41st', 'birthday', 'Team', 'India', 'all-rounder' ,'Hardik', 'Pandya', 'shared', 'a', 'video', 'of', 'him','Pandya','Pandya','trolls','Zaheer','Khan']
-#query = ['cricketer','Zaheer']
-#gl = ['cricketer']
-tr = tf_idf()
-tr.tf_doc_specific(test, globa)
-
-#res = [1,1,4]
-#hello=[4,5,6]
-#cos = cosine_sim()
-#s = cos.cosine_value(hello,res)
-#print(s)
