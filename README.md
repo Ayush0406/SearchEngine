@@ -47,4 +47,4 @@ After installation of the proper python version:
 * [Smit Shah](https://github.com/smit-1999)
 * [Saarthak Jain](https://github.com/saarthakjain001)
 * [Dhruv Gupta](https://github.com/coderdhruv)
-* [Ayush Laddha]()
+* [Ayush Laddha](https://github.com/Ayush0406)
